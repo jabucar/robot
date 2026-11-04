@@ -1,7 +1,7 @@
 #include <AFMotor.h> 
 #include <Servo.h>
 
-#define SPEED 200 //brzina motora
+#define SPEED 120 //brzina motora
 #define SERVO   10 // Pin za servo motor
 
 #define echoPin 52
@@ -16,20 +16,41 @@ AF_DCMotor ddM4(2); //prednje ljevo
 AF_DCMotor dgM1(3); //zadnje ljevo
 AF_DCMotor lgM2(4); //zadnje desno
 
+
+// spin me right round https://projecthub.arduino.cc/lee_curiosity/building-an-arduino-mecanum-wheels-robot-26edbb
+
+
 void spin()
- {
- dgM1.run(FORWARD);
- lgM2.run(FORWARD);
- ldM3.run(FORWARD);
- ddM4.run(FORWARD);  
+{
+  dgM1.run(FORWARD);
+  lgM2.run(BACKWARD);
+  ldM3.run(BACKWARD);
+  ddM4.run(FORWARD);
 }
 
-
-void naprijed()
+void desno()
 {
   dgM1.run(BACKWARD);
   lgM2.run(FORWARD);
   ldM3.run(BACKWARD);
+  ddM4.run(FORWARD); 
+}
+
+
+
+void lijevo()
+{
+  dgM1.run(FORWARD);
+  lgM2.run(BACKWARD);
+  ldM3.run(FORWARD);
+  ddM4.run(BACKWARD); 
+}
+
+void naprijed()
+{
+  dgM1.run(FORWARD);
+  lgM2.run(FORWARD);
+  ldM3.run(FORWARD);
   ddM4.run(FORWARD); 
 }
 
@@ -45,15 +66,15 @@ void stani()
 
 
 void setup() {
-  pinMode(trigPin, OUTPUT); // kamera
+  pinMode(trigPin, OUTPUT); // senzor udaljenosti                                                                                                                             i que fue
   pinMode(echoPin, INPUT); 
-/*
+
   //provjera senzora
   Serial.begin(9600);
   Serial.println("Izmjerena udaljenost do objekta:");
   delay(500);
-  */
-
+  
+ 
   // Postavljanje motora
   dgM1.setSpeed(SPEED);
   lgM2.setSpeed(SPEED);
@@ -68,13 +89,19 @@ void setup() {
 }
 
 void loop() {
-  
+ 
+ //brake dance
+ /* 
  stani();
- delay(3000);
+ delay(1000);
+ lijevo();
+ delay(1000);
+ desno();
+ delay(1000);
  spin();
  delay(1000);
-
- /* digitalWrite(trigPin, LOW);
+*/
+  digitalWrite(trigPin, LOW);
   delayMicroseconds(2); // Čekaj 2 mikrosekunde da se izbjegne kolizija
 
   digitalWrite(trigPin, HIGH); // Uključuje trigPin da generira i pošalje impuls
@@ -88,9 +115,9 @@ void loop() {
   Serial.print(distance); // Ispis udaljenosti na serijski monitor
   Serial.println(" cm");
 
-  delay(100); /
+  delay(100); 
   
   
-  */
+  
 }
 
